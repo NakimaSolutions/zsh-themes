@@ -1,0 +1,10 @@
+# OS auto-generated files
+*.DS_Store
+
+# Vim
+*~
+*.swp
+*.swo
+
+# Logs
+*.log
