@@ -20,3 +20,8 @@ git clone --depth=1 https://github.com/NakimaSolutions/zsh-themes.git ${ZSH_CUST
 ```
 
 Set `ZSH_THEME="nakima/main"` in `~/.zshrc`.
+
+### Current Themes
+
+- main: `ZSH_THEME="nakima/main"`
+- minimal: `ZSH_THEME="nakima/minimal"`
