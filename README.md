@@ -25,3 +25,4 @@ Set `ZSH_THEME="nakima/main"` in `~/.zshrc`.
 
 - main: `ZSH_THEME="nakima/main"`
 - minimal: `ZSH_THEME="nakima/minimal"`
+- elegant: `ZSH_THEME="nakima/elegant"`
