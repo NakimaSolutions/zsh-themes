@@ -1,38 +1,19 @@
 #!/bin/zsh
 
-## Node and NVM
-function node_prompt_version {
-  local nvm_prompt
-  nvm_prompt=$(node -v 2>/dev/null)
-  [[ "${nvm_prompt}x" == "x" ]] && return
-  nvm_prompt=${nvm_prompt:1}
-  echo "%{$fg[green]%}⬢ ${nvm_prompt}%{$reset_color%}"
-}
+# ----------------------------------------------------------------------- #
+# Imports
+# ----------------------------------------------------------------------- #
 
-load-nvmrc() {
-  [[ -f "$NVM_DIR/nvm.sh" ]] || return
+SOURCE="${BASH_SOURCE[0]}"
+REL_DIR="$(dirname "$SOURCE")"
+THEME_DIR="$(cd "$REL_DIR" && pwd)"
 
-  local curr_node_version="$(nvm version)"
-  local nvmrc_path="$(nvm_find_nvmrc)"
+# Hooks
+source "${THEME_DIR}/hooks/nvmrc.zsh"
 
-  if [ -n "$nvmrc_path" ]; then
-    local nvmrc_version=$(cat "${nvmrc_path}")
-    local nvmrc_node_version=$(nvm version "${nvmrc_version}")
-    local nvmrc_node_version_remote=$(nvm version-remote "${nvmrc_version}")
-
-    if [ "${nvmrc_node_version}" != "${nvmrc_node_version_remote}" ]; then
-      nvm install
-    elif [ "$nvmrc_node_version_remote" != "$curr_node_version" ]; then
-      nvm use
-    fi
-  elif [ "$curr_node_version" != "$(nvm version default)" ]; then
-    echo "Reverting to nvm default version"
-    nvm use default
-  fi
-}
-
-autoload -U add-zsh-hook
-add-zsh-hook chpwd load-nvmrc
+# ----------------------------------------------------------------------- #
+# Functions
+# ----------------------------------------------------------------------- #
 
 ## Return Status
 local ret_status="%(?:%{$fg_bold[green]%}%?↵:%{$fg_bold[red]%}%?↵)%{$reset_color%}"
@@ -47,6 +28,18 @@ ZSH_THEME_GIT_PROMPT_CLEAN=""
 ZSH_THEME_GIT_PROMPT_DIRTY="$my_orange*%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="$FG[075])%{$reset_color%}"
 
-## Order of each field
+## Node and NVM
+function node_prompt_version {
+  local nvm_prompt
+  nvm_prompt=$(node -v 2>/dev/null)
+  [[ "${nvm_prompt}x" == "x" ]] && return
+  nvm_prompt=${nvm_prompt:1}
+  echo "%{$fg[green]%}⬢ ${nvm_prompt}%{$reset_color%}"
+}
+
+# ----------------------------------------------------------------------- #
+# Prompts
+# ----------------------------------------------------------------------- #
+
 PROMPT="${ret_status} %{${fg_bold[blue]}%}:: ${current_dir}${git_branch} $FG[105]%(!.#.») %{$reset_color%}"
 RPS1='$(node_prompt_version)'

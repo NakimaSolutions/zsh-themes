@@ -6,6 +6,21 @@
 # http://ysmood.org/wp/2013/03/my-ys-terminal-theme/
 # Mar 2013 ys
 
+# ----------------------------------------------------------------------- #
+# Imports
+# ----------------------------------------------------------------------- #
+
+SOURCE="${BASH_SOURCE[0]}"
+REL_DIR="$(dirname "$SOURCE")"
+THEME_DIR="$(cd "$REL_DIR" && pwd)"
+
+# Hooks
+source "${THEME_DIR}/hooks/nvmrc.zsh"
+
+# ----------------------------------------------------------------------- #
+# Functions
+# ----------------------------------------------------------------------- #
+
 # Machine name.
 function box_name {
     [ -f ~/.box-name ] && cat ~/.box-name || echo $HOST
@@ -36,6 +51,10 @@ ZSH_THEME_NVM_PROMPT_SUFFIX=""
 # Python info.
 local python_info='🐍 $(pyenv_prompt_info)'
 
+# ----------------------------------------------------------------------- #
+# Prompts
+# ----------------------------------------------------------------------- #
+
 # Prompt format: \n # USER at MACHINE in DIRECTORY on git:BRANCH STATE [TIME] \n $
 PROMPT="%{$terminfo[bold]$fg[cyan]%}%n\
 %{$fg[white]%}@\
@@ -57,33 +76,3 @@ ${git_info}\
 fi
 
 RPROMPT="${nvm_info}, ${python_info}%{$reset_color%}"
-
-
-# ----------------------------------------------------------------------- #
-# Hooks
-# ----------------------------------------------------------------------- #
-
-load-nvmrc() {
-  [[ -f "$NVM_DIR/nvm.sh" ]] || return
-
-  local curr_node_version="$(nvm version)"
-  local nvmrc_path="$(nvm_find_nvmrc)"
-
-  if [ -n "$nvmrc_path" ]; then
-    local nvmrc_version=$(cat "${nvmrc_path}")
-    local nvmrc_node_version=$(nvm version "${nvmrc_version}")
-    local nvmrc_node_version_remote=$(nvm version-remote "${nvmrc_version}")
-
-    if [ "${nvmrc_node_version}" != "${nvmrc_node_version_remote}" ]; then
-      nvm install
-    elif [ "$nvmrc_node_version_remote" != "$curr_node_version" ]; then
-      nvm use
-    fi
-  elif [ "$curr_node_version" != "$(nvm version default)" ]; then
-    echo "Reverting to nvm default version"
-    nvm use default
-  fi
-}
-
-autoload -U add-zsh-hook
-add-zsh-hook chpwd load-nvmrc
