@@ -8,6 +8,7 @@ NKM_THEME_DIR="$(dirname "$0")"
 
 # Hooks
 source "${NKM_THEME_DIR}/hooks/nvmrc.zsh"
+load-nvmrc
 
 # ----------------------------------------------------------------------- #
 # Functions
