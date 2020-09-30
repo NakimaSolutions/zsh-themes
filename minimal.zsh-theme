@@ -4,12 +4,10 @@
 # Imports
 # ----------------------------------------------------------------------- #
 
-SOURCE="${BASH_SOURCE[0]}"
-REL_DIR="$(dirname "$SOURCE")"
-THEME_DIR="$(cd "$REL_DIR" && pwd)"
+NKM_THEME_DIR="$(dirname "$0")"
 
 # Hooks
-source "${THEME_DIR}/hooks/nvmrc.zsh"
+source "${NKM_THEME_DIR}/hooks/nvmrc.zsh"
 
 # ----------------------------------------------------------------------- #
 # Functions
