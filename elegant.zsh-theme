@@ -10,6 +10,8 @@
 # Imports
 # ----------------------------------------------------------------------- #
 
+CRUNCH_BRACKET_COLOR="%{$fg[white]%}"
+CRUNCH_RVM_COLOR="%{$fg[magenta]%}"
 NKM_THEME_DIR="$(dirname "$0")"
 
 # Hooks
@@ -45,10 +47,15 @@ ZSH_THEME_GIT_PROMPT_CLEAN="$YS_VCS_PROMPT_CLEAN"
 # NVM info
 local nvm_info='$(nvm_prompt_info)'
 ZSH_THEME_NVM_PROMPT_PREFIX="%{$fg[green]%}⬢ "
-ZSH_THEME_NVM_PROMPT_SUFFIX=""
+ZSH_THEME_NVM_PROMPT_SUFFIX="%{$reset_color%}"
 
 # Python info.
 local python_info='🐍 $(pyenv_prompt_info)'
+
+# ruby info.
+ZSH_THEME_RUBY_PROMPT_PREFIX="%{$fg[blue]%}💎 "
+ZSH_THEME_RUBY_PROMPT_SUFFIX="$CRUNCH_BRACKET_COLOR"]"%{$reset_color%}"
+local ruby_info='$(ruby_prompt_info)'
 
 # ----------------------------------------------------------------------- #
 # Prompts
@@ -74,4 +81,4 @@ ${git_info}\
 %{$terminfo[bold]$fg[blue]%}# %{$reset_color%}"
 fi
 
-RPROMPT="${nvm_info}, ${python_info}%{$reset_color%}"
+RPROMPT="${nvm_info}, ${python_info}, ${ruby_info}%{$reset_color%}"
