@@ -15,6 +15,10 @@ load-nvmrc() {
     local nvmrc_node_version_remote=$(nvm version-remote "${nvmrc_version}")
 
     if [ "${nvmrc_node_version}" != "${nvmrc_node_version_remote}" ]; then
+      versions_to_rm_array=($(nvm ls "${nvmrc_version}" | tr -d ' ' | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2};?)?)?[mGK]//g"))
+      for version in "${versions_to_rm_array[@]}"; do
+        nvm uninstall "${version}"
+      done
       nvm install
     elif [ "${nvmrc_node_version_remote}" != "${curr_node_version}" ]; then
       nvm use
